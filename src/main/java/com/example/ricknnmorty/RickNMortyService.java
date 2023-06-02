@@ -10,6 +10,7 @@ import java.util.Objects;
 public class RickNMortyService {
 
     private final WebClient webClient= WebClient.create("https://rickandmortyapi.com/api/");
+    private final WebClient webClientStudent= WebClient.create("http://localhost:8080/api/");
 
     List<RickNMortyCharacter> getRickNMortyCharacter(){
         ResponseEntity<RickNMortyResult> responseEntity=webClient.get()
@@ -19,6 +20,19 @@ public class RickNMortyService {
                 .block();
 
         return Objects.requireNonNull(Objects.requireNonNull(responseEntity).getBody()).results();
+
+
+    }
+
+    Student addStudent(Student newStudent){
+        ResponseEntity<Student> responseEntity=webClientStudent.post()
+                .uri("students")
+                .bodyValue(newStudent)
+                .retrieve()
+                .toEntity(Student.class)
+                .block();
+
+        return Objects.requireNonNull(Objects.requireNonNull(responseEntity).getBody());
 
 
     }
